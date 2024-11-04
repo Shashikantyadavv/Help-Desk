@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from '../api/axios';
+import instance from '../api/axios';
 import { AuthContext } from '../context/authContext';
 
 const AgentPage = () => {
@@ -14,7 +14,7 @@ const AgentPage = () => {
 
   const fetchTickets = async () => {
     try {
-      const response = await axios.get('/tickets/');
+      const response = await instance.get('/tickets/');
       setTickets(response.data);
     } catch (error) {
       console.error('Error fetching tickets:', error);
@@ -23,7 +23,7 @@ const AgentPage = () => {
 
   const handleAddNote = async (ticketId) => {
     try {
-      await axios.post(`/tickets/${ticketId}/notes`, { content: noteText });
+      await instance.post(`/tickets/${ticketId}/notes`, { content: noteText });
       setNoteText('');
       fetchTickets();
     } catch (error) {
@@ -33,7 +33,7 @@ const AgentPage = () => {
 
   const handleStatusChange = async (ticketId) => {
     try {
-      await axios.patch(`/tickets/${ticketId}/status`, { status });
+      await instance.patch(`/tickets/${ticketId}/status`, { status });
       setStatus('');
       fetchTickets();
     } catch (error) {

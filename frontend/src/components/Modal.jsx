@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 const Modal = ({ isOpen, onClose, onSubmit }) => {
-  const [name, setName] = seState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Customer'); 

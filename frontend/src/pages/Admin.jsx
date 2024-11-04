@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from '../api/axios';
+import instance from '../api/axios';
 import { Pie, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 import { AuthContext } from '../context/authContext';
@@ -27,7 +27,7 @@ const AdminPage = () => {
 
   const fetchTickets = async () => {
     try {
-      const response = await axios.get('/tickets/');
+      const response = await instance.get('/tickets/');
       setTickets(response.data);
       // console.log(tickets);
     } catch (error) {
@@ -37,7 +37,7 @@ const AdminPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/users');
+      const response = await instance.get('/users');
       setUsers(response.data);
       const counts = response.data.length;
       setTotalUsers(prevState => ({
@@ -51,7 +51,7 @@ const AdminPage = () => {
 
   const fetchStatusCounts = async () => {
     try {
-      const response = await axios.get('/tickets');
+      const response = await instance.get('/tickets');
       const count = response.data.reduce((acc, ticket) => {
         acc[ticket.status] = (acc[ticket.status] || 0) + 1;
         return acc;
@@ -64,7 +64,7 @@ const AdminPage = () => {
 
   const fetchTicketsOverTime = async () => {
     try {
-      const response = await axios.get('/tickets');
+      const response = await instance.get('/tickets');
       const ticketDateCounts = response.data.reduce((acc, ticket) => {
         const date = new Date(ticket.createdAt).toLocaleDateString();
         acc[date] = (acc[date] || 0) + 1;
@@ -81,7 +81,7 @@ const AdminPage = () => {
 
   const handleAddNote = async (ticketId) => {
     try {
-      await axios.post(`/tickets/${ticketId}/notes`, { content: noteText });
+      await instance.post(`/tickets/${ticketId}/notes`, { content: noteText });
       setNoteText('');
       fetchTickets();
     } catch (error) {
@@ -91,7 +91,7 @@ const AdminPage = () => {
 
   const handleStatusChange = async (ticketId) => {
     try {
-      await axios.patch(`/tickets/${ticketId}/status`, { status });
+      await instance.patch(`/tickets/${ticketId}/status`, { status });
       setStatus('');
       fetchTickets();
       fetchStatusCounts(); 
@@ -110,7 +110,7 @@ const AdminPage = () => {
   const handleSubmitNewUser = async (newUser) => {
     console.log(newUser);
     try {
-      const response = await axios.post('/users/', newUser);
+      const response = await instance.post('/users/', newUser);
       fetchUsers();
     } catch (error) {
       console.error('Error creating user:', error);
@@ -119,7 +119,7 @@ const AdminPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`/users/delete/${id}`);
+      const response = await instance.delete(`/users/delete/${id}`);
       fetchUsers();
     } catch (error) {
       console.log('Error deleting user: ', error);

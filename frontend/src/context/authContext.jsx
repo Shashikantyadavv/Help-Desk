@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from '../api/axios';
+import instance from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   },[])
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/users/login', { email, password });
+      const response = await instance.post('/users/login', { email, password });
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);

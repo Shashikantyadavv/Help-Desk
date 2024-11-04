@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../api/axios';
+import instance from '../api/axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Signup = () => {
@@ -22,7 +22,7 @@ const Signup = () => {
     setError(null); 
 
     try {
-      const response = await axios.post('/users/signup', formData);
+      const response = await instance.post('/users/signup', formData);
       navigate('/login'); 
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed. Please try again.');

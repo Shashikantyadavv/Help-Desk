@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import axios from '../api/axios';
+import instance from '../api/axios';
 import { AuthContext } from '../context/authContext';
 
 const CustomerPage = () => {
@@ -16,7 +16,7 @@ const CustomerPage = () => {
 
   const fetchTickets = async () => {
     try {
-      const response = await axios.get(`/tickets/customer/${user.id}`);
+      const response = await instance.get(`/tickets/customer/${user.id}`);
       setTickets(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching tickets', error);
@@ -26,7 +26,7 @@ const CustomerPage = () => {
   const handleNewTicket = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      await instance.post(
         '/tickets',
         { title: newTicketTitle }
       );
@@ -39,7 +39,7 @@ const CustomerPage = () => {
 
   const handleAddNote = async (ticketId) => {
     try {
-      await axios.post(
+      await instance.post(
         `/tickets/${ticketId}/notes`,
         { content: noteText }
       );
