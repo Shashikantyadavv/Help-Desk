@@ -13,11 +13,12 @@ app.use(cors({
     credentials: true
 }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/?readPreference=primary&ssl=false&directConnection=true')
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log(err));
+mongoose.connect('mongodb+srv://sashikant12rao:4RbwhEy2RRJ26c0C@cluster0.xomqr.mongodb.net/').then(() => console.log("MongoDB connected....")).catch((err) => console.log(err.message));
 
 
+app.get('/',(req,res)=>{
+    res.status(200).send("Yup, Your Server is running....🎉🎉");
+  })
 app.use('/api/users', userRoutes);
 app.use('/api/tickets', ticketRoutes);
 
